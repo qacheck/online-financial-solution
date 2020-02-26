@@ -52,7 +52,6 @@ final class Online_Financial_Solution {
 
 	public function custom_new_user_notification_email($wp_new_user_notification_email, $user, $blogname) {
 		$pattern = '#\s+'.preg_quote(wp_login_url()).'\s+#';
-		//error_log($pattern);
 		$wp_new_user_notification_email = preg_replace($pattern,'', $wp_new_user_notification_email);
 		return $wp_new_user_notification_email;
 	}
