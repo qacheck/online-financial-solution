@@ -1,0 +1,15 @@
+#login h1 {
+	display: none;
+}
+.login #nav {
+	padding: 0;
+}
+.login #nav a {
+	display: block;
+	float: none;
+	color: #fff;
+	margin-bottom: 10px;
+}
+.login #nav a:hover {
+	color: #fff;
+}

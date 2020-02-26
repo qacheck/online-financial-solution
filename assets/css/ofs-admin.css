@@ -1,0 +1,357 @@
+#ofs-processing {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, .6);
+	color: #fff;
+	font-weight: bold;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.ofs-modal {
+	position:fixed;
+    display:none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .2);
+}
+.ofs-modal .modal-dialog {
+	width: 100%;
+    margin: 1.75rem auto;
+	border: 1px solid #fff;
+    box-shadow: 0px 2px 7px #292929;
+    -moz-box-shadow: 0px 2px 7px #292929;
+    -webkit-box-shadow: 0px 2px 7px #292929;
+    background: #fff;
+}
+.ofs-modal .modal-header {
+	border-bottom: rgba(0, 0, 0, .1) 1px solid;
+	height: 30px;
+	line-height: 30px;
+}
+.ofs-modal .modal-title {
+	font-size: 1em;
+	margin: 0;
+	padding: 0 10px;
+}
+.ofs-modal .modal-header .close {
+	float: right;
+	display: block;
+	width: 30px;
+	height: 30px;
+	line-height: 24px;
+	margin-top: -30px;
+	text-align: center;
+	color: #f00;
+	font-weight: bold;
+	cursor: pointer;
+	font-size: 20px;
+}
+.ofs-modal .modal-body {
+	padding: 10px;
+}
+
+#ofs-condition-fields {
+	max-width: 500px;
+	padding-left: 4px;
+}
+#ofs-condition-fields li {
+	cursor: pointer;
+	margin-top: 30px;
+	height: 38px;
+}
+#ofs-condition-fields .ui-state-highlight {
+	height: 38px;
+	background: #fff1b7;
+}
+#ofs-condition-fields li:before,
+#ofs-condition-fields li:after {
+	display: table;
+	content: '';
+}
+#ofs-condition-fields li:after {
+	clear: both;
+}
+#ofs-condition-fields li {
+	padding-right: 78px;
+	border: #eee 1px solid;
+	background: #fff
+}
+#ofs-condition-fields li .ofs-field-config-title {
+	padding: 0 10px;
+	height: 38px;
+	line-height: 38px;
+	position: relative;
+	background: #fcfcfc;
+}
+#ofs-condition-fields li .ofs-field-config-title span:first-child {
+	display: block;
+	height: 18px;
+	line-height: 16px;
+	padding: 0 5px;
+	color: #999;
+	position: absolute;
+	left: -1px;
+	top: -20px;
+	border: #eee 1px solid;
+	font-size: 0.8em;
+}
+#ofs-condition-fields li .ofs-field-config-title span:last-child {
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+#ofs-condition-fields li .ofs-field-config-actions {
+	float: right;
+	margin-top: -38px;
+	margin-right: -78px;
+	background: #fcfcfc;
+}
+#ofs-condition-fields li .ofs-field-config-actions a {
+	display: inline-block;
+	width: 38px;
+	height: 38px;
+	line-height: 38px;
+	text-align: center;
+	border-left: #eee 1px solid;
+}
+#ofs-condition-fields li .ofs-field-config-actions a.ofs-remove-field {
+	color: #f00;
+}
+
+#ofs-select-condition-field {
+	width: 250px;
+}
+
+.ofs-config-form table {
+	width: 100%;
+	border-collapse: collapse;
+}
+.ofs-config-form table tr:nth-child(odd) {
+	background: #f7f7f7;
+}
+.ofs-config-form table td {
+	vertical-align: middle;
+	padding: 5px;
+}
+.ofs-config-form table input[type="text"],
+.ofs-config-form table textarea,
+.ofs-config-form table select {
+	display: block;
+	width: 100%;
+	margin: 0;
+}
+.ofs-config-form .ofs-frm-submit {
+	text-align: center;
+}
+.has-unit-control {
+	position: relative;
+}
+.has-unit-control::before {
+	display: block;
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #fff;
+	z-index: 1;
+}
+.has-unit-control .input {
+	position: relative;
+	z-index: 5;
+}
+.has-unit-control .input input,
+.has-unit-control .input textarea {
+	background: rgba(255, 255, 255, .8);
+}
+.has-unit-control .unit {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 5px;
+	z-index: 3;
+}
+
+.ofs-management-requirement-condition-fields a {
+	display: block;
+	margin-top: 30px;
+	padding: 10px;
+	border: rgba(0, 0, 0, .1) 1px solid;
+	max-width: 600px;
+	text-decoration: none;
+	position: relative;
+}
+.ofs-management-requirement-condition-fields span:first-child {
+	display: block;
+	height: 18px;
+	line-height: 16px;
+	padding: 0 5px;
+	color: #999;
+	position: absolute;
+	left: -1px;
+	top: -20px;
+	border: #eee 1px solid;
+	font-size: 0.8em;
+}
+.ofs-management-requirement-condition-fields span:last-child {
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.manage-for strong {
+	color: #00f;
+}
+#ofs-condition-field-require-config-form table {
+	width: 100%;
+	table-layout: fixed;
+}
+#ofs-condition-field-require-config-form table tr:nth-child(odd) {
+	background: #f0f0f0;
+}
+#ofs-condition-field-require-config-form table td {
+	padding: 5px;
+}
+#ofs-condition-field-require-config-form table td:first-child {
+	width: 25%;
+}
+
+#user-profile-picture-select img {
+	width: 80px;
+}
+
+.ofs-table {
+	width: 100%;
+	table-layout: fixed;
+	border-collapse: collapse;
+}
+.ofs-table th,
+.ofs-table td {
+	border: #ddd 1px solid;
+	padding: 5px;
+}
+.ofs-table th {
+	text-align: center;
+}
+.ofs-table td {
+	text-align: center;
+}
+
+#borrower-info-popup {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, .3);
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+#borrower-info-popup .dialog {
+	margin: 30px auto 15px;
+	background: #fff;
+	position: relative;
+	box-shadow: 2px 2px 3px rgba(0, 0, 0, .3);
+}
+#borrower-info-popup .dialog-header {
+	padding: 10px;
+	font-size: 16px;
+	font-weight: bold;
+	border-bottom: #eee 1px solid;
+}
+#borrower-info-popup .dialog-header .close {
+	color: #fff;
+	background: #f00;
+	border-radius: 100%;
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	padding: 0;
+	text-align: center;
+	border: 0;
+	position: absolute;
+	top: -15px;
+	right: -15px;
+}
+#borrower-info-popup .content-body {
+	padding: 10px;
+}
+.borrower-data-filter {
+	padding-bottom: 10px;
+	text-align: center;
+}
+.borrower-data .condition-borrower-data {
+	display: none;
+}
+.borrower-data .condition-borrower-data.active {
+	display: block;
+}
+.borrower-data table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 16px;
+}
+.borrower-data table th,
+.borrower-data table td {
+	padding: 5px;
+	border: #eee 1px solid;
+}
+.borrower-data table td .field-desc {
+	font-size: 14px;
+	color: #888;
+}
+.ofs-field-type-mselect .ofs-field-borrower-data .selected,
+.ofs-field-type-checkbox .ofs-field-borrower-data .selected,
+.ofs-field-type-province .ofs-field-borrower-data,
+.ofs-field-type-select .ofs-field-borrower-data,
+.ofs-field-type-radio .ofs-field-borrower-data {
+	display: inline-block;
+	padding: 5px 10px 6px;
+	background: #eee;
+	border-radius: 5px;
+	border: #ddd 1px solid;
+}
+.ofs-field-type-mselect .ofs-field-borrower-data .selected,
+.ofs-field-type-checkbox .ofs-field-borrower-data .selected {
+	margin-right: 10px;
+}
+.ofs-field-type-mselect .ofs-field-borrower-data .selected:last-child,
+.ofs-field-type-checkbox .ofs-field-borrower-data .selected:last-child {
+	margin-right: 0;
+}
+@media (min-width: 576px) {
+	.ofs-modal .modal-dialog {
+		max-width: 500px;
+	}
+	#borrower-info-popup .dialog {
+		max-width: 500px;
+	}
+}
+@media (min-width: 768px) {
+	#borrower-info-popup .dialog {
+		max-width: 700px;
+	}
+}
+@media (min-width: 992px) {
+	#borrower-info-popup .dialog {
+		max-width: 800px;
+	}
+}
+@media (min-width: 1024px) {
+	#borrower-info-popup .dialog {
+		max-width: 900px;
+	}
+}
+@media (min-width: 1200px) {
+	#borrower-info-popup .dialog {
+		max-width: 1024px;
+	}
+}

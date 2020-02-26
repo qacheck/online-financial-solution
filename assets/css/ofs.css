@@ -1,0 +1,462 @@
+#ofs-borrowers-list-filter {
+	display: flex;
+}
+#ofs-borrowers-list-table {
+	display: table;
+	width: 100%;
+	table-layout: fixed;
+	margin-bottom: 16px;
+}
+#ofs-borrowers-list-heading {
+	display: table-header-group;
+}
+#ofs-borrowers-list-heading > div {
+	display: table-cell;
+	white-space: nowrap;
+}
+#ofs-borrowers-list-body {
+	display: table-row-group;
+}
+#ofs-borrowers-list-body .crow {
+	display: table-row;
+}
+#ofs-borrowers-list-body .crow > div {
+	display: table-cell;
+}
+.ofs-button {
+	display: inline-block;
+	white-space: nowrap;
+	font-size: 16px;
+	height: 40px;
+	line-height: 38px;
+	margin: 0;
+	padding: 0 20px;
+	background: #fff;
+	border: #00b59c 1px solid;
+	border-radius: 40px;
+	color: #00b59c;
+	cursor: pointer;
+	box-shadow: 1px 1px 3px rgba(0, 0, 0, .3);
+	-webkit-transition: all .1s ease;
+	   -moz-transition: all .1s ease;
+	    -ms-transition: all .1s ease;
+	     -o-transition: all .1s ease;
+	        transition: all .1s ease;
+}
+.ofs-button a {
+	color: #00b59c;
+	-webkit-transition: color .1s ease;
+	   -moz-transition: color .1s ease;
+	    -ms-transition: color .1s ease;
+	     -o-transition: color .1s ease;
+	        transition: color .1s ease;
+}
+.ofs-button:focus,
+.ofs-button:hover {
+	color: #fff;
+	background: #00b59c;
+}
+.ofs-button:focus a,
+.ofs-button:hover a {
+	color: #fff;
+}
+.ofs-button-addon {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	background: transparent;
+	display: inline-block;
+	vertical-align: middle;
+	margin-top: -2px;
+}
+.ofs-user-info-bar {
+	text-align: center;
+}
+.ofs-user-info-bar .ofs-button {
+	display: block;
+	margin: 0 16px 16px;
+	font-weight: bold;
+}
+.ofs-user-info-bar .ofs-button .ofs-button-addon {
+	margin-left: 5px;
+	margin-top: -2px;
+	margin-right: -19px;
+	border-radius: 36px;
+	width: 38px;
+	height: 38px;
+	background: url('../img/logout.png') #fff center center no-repeat;
+	cursor: pointer;
+}
+.ofs-user-info-bar .ofs-button .ofs-button-addon button,
+.ofs-user-info-bar .ofs-button .ofs-button-addon button:focus,
+.ofs-user-info-bar .ofs-button .ofs-button-addon button:hover,
+.ofs-user-info-bar .ofs-button .ofs-button-addon a,
+.ofs-user-info-bar .ofs-button .ofs-button-addon a:focus,
+.ofs-user-info-bar .ofs-button .ofs-button-addon a:hover {
+	outline: none;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.ofs-borrower-login {
+	width: 100%;
+	padding: 16px;
+	margin: 0 auto 30px;
+	display: none;
+	background: #f7f7f7;
+	border-radius: 6px;
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+.ofs-borrower-login.open {
+	display: block;
+}
+.ofs-borrower-login label {
+	margin-left: 20px;
+}
+.ofs-borrower-login input[type=text] {
+	background: #fff;
+	border: #00b59c 1px solid;
+	height: 40px;
+	line-height: 38px;
+	border-radius: 40px;
+}
+.ofs-borrower-login input[type=text]:focus {
+	outline: none;
+}
+.ofs-borrower-login .ofs-submit {
+	text-align: center;
+}
+.ofs-borrower-login table {
+	width: 100%;
+}
+.ofs-borrower-login table td {
+	text-align: center;
+}
+.ofs-products-heading {
+	text-align: center;
+	font-size: 24px;
+	margin-bottom: 0;
+}
+.ofs-products-list {
+	justify-content: center;
+	background: rgba(0, 0, 0, .05);
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+}
+.ofs-pi {
+	display: block;
+	width: 100%;
+	flex: 0 0 100%;
+	padding: 15px;
+	text-align: center;
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+.ofs-pi.current a {
+	color: #999;
+}
+.ofs-pi a {
+	display: block;
+	font-weight: bold;
+	color: #333;
+}
+.ofs-pi .icon {
+	display:block;
+	width: 80px;
+	height: 80px;
+	margin: 10px auto;
+	overflow: hidden;
+}
+.ofs-pi .icon img {
+	width: 100%;
+	height: auto;
+}
+.ofs-user-info-bar {
+	display: block;
+}
+.ofs-public-borrowers-label {
+	text-align: center;
+	margin: 16px 0;
+	font-size: 24px;
+}
+#ofs-borrowers-list-filter {
+	background: #f7f7f7;
+	padding: 16px;
+}
+#ofs-borrowers-list-heading {
+	text-align: center;
+	font-weight: bold;
+}
+#ofs-borrowers-list-heading > div {
+	padding: 16px;
+	border: #f7f7f7 1px solid;
+}
+#ofs-borrowers-list-body .crow > div {
+	padding: 16px;
+	border: #f7f7f7 1px solid;
+}
+#ofs-borrowers-list-page {
+	margin-bottom: 16px;
+	display: flex;
+	justify-content: center;
+}
+#ofs-borrowers-list-page a,
+#ofs-borrowers-list-page span {
+	display: block;
+	padding: 3px 10px;
+}
+#ofs-borrowers-list-page a {
+	background: #f7f7f7;
+}
+.ofs-filter-form-submit,
+.ofs-filter-form-submit td {
+	text-align: right;
+}
+
+#ofs-processing {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, .6);
+	color: #fff;
+	font-weight: bold;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#ofs-modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	background: rgba(0, 0, 0, .3);
+	display: none;
+}
+#ofs-modal .ofs-modal-dialog {
+	max-width: 600px;
+	margin: 1em auto;
+	background: #fff;
+}
+#ofs-modal .ofs-modal-header {
+	display: flex;
+	border-bottom: rgba(0, 0, 0, .1) 1px solid;
+	align-items: flex-start;
+}
+#ofs-modal .ofs-modal-header .ofs-modal-title {
+	flex-grow: 1;
+	padding: 10px 15px;
+}
+#ofs-modal .ofs-modal-close {
+	margin: 10px 15px 10px 0;
+}
+#ofs-modal .ofs-modal-body {
+	padding: 10px 15px;
+}
+
+#ofs-condition-filter-results {
+	display: block;
+	margin-bottom: 60px;
+}
+.osf-lender-profile {
+	padding: 15px 0;
+	border-top: #eee 1px solid;
+	border-left: #eee 1px solid;
+	border-right: #eee 1px solid;
+}
+.osf-lender-profile:nth-child(odd) {
+	background-color: #fafafa;
+}
+.osf-lender-profile:last-child {
+	border-bottom: #eee 1px solid;
+}
+.osf-lender-profile:before,
+.osf-lender-profile:after {
+	display: table;
+	content: '';
+}
+.osf-lender-profile:after {
+	clear: both;
+}
+.osf-lender-profile .profile-photo {
+	padding-left: 15px;
+	padding-right: 15px;
+	width: 80px;
+	height: 80px;
+	float: left;
+}
+.osf-lender-profile .profile-info {
+	width: calc(100% - 125px);
+	float: left;
+	padding-right: 15px;
+}
+.osf-lender-profile .profile-photo span {
+	display: block;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+.osf-lender-profile .profile-photo span img {
+	width: 100%;
+	height: auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.osf-lender-profile .lender-bio,
+.osf-lender-profile .lender-bio-mobile {
+	display: none;
+	text-align: justify;
+}
+.osf-lender-profile .lender-name {
+	color: #00b59c;
+	margin-bottom: 15px;
+	font-weight: bold;
+}
+.osf-lender-profile .action {
+	display: flex;
+	justify-content: space-between;
+}
+.osf-lender-profile .action button {
+	width: 48%;
+	flex: 0 0 48%;
+	white-space: nowrap;
+}
+.osf-lender-profile .action button.register {
+	background: #00b59c;
+	color: #fff;
+	border: #00b59c 1px solid;
+}
+.osf-lender-profile .action button.register:hover,
+.osf-lender-profile .action button.register:focus {
+	background: #009681;
+	color: #fff;
+	border: #00b59c 1px solid;
+}
+
+.osf-lender-profile .lender-bio-mobile {
+	clear: both;
+	padding-top: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.osf-lender-profile .lender-bio-mobile p:last-child {
+	margin: 0;
+	padding: 0;
+}
+
+.ofs-condition-filter-table tr,
+.ofs-condition-filter-table td {
+	display: block;
+	font-size: 14px;
+}
+.ofs-condition-filter-table td {
+	border-top: 0;
+	padding: 0;
+}
+.ofs-condition-filter-table tr {
+	padding: 10px;
+	border-bottom: rgba(0,0,0,0.05) 1px solid;
+}
+.ofsfc-checkbox label,
+.ofsfc-radio label {
+	display: inline-block;
+	border: #eee 1px dashed;
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-bottom: 5px;
+}
+@media (min-width: 576px) {
+	.ofs-user-info-bar {
+		display: flex;
+		align-items: stretch;
+		justify-content: center;
+	}
+	.ofs-borrower-login {
+		width: 425px;
+	}
+
+	.ofs-products-list .ofs-pi {
+		width: 50%;
+		flex: 0 0 50%;
+	}
+}
+@media (min-width: 768px) {
+	.ofs-condition-filter-table th {
+		padding: 10px;
+		text-align: center;
+	}
+	.ofs-condition-filter-table tr {
+		display: table-row;
+	}
+	.ofs-condition-filter-table td {
+		display: table-cell;
+		padding: 10px;
+	}
+
+	.osf-lender-profile .profile-photo {
+		width: 180px;
+		height: 180px;
+	}
+	.osf-lender-profile .profile-info {
+		width: calc(100% - 225px);
+		float: left;
+		padding-right: 15px;
+	}
+	.osf-lender-profile .lender-bio {
+		display: block;
+	}
+	.toggle-lender-bio-mobile {
+		display: none;
+	}
+	.osf-lender-profile .action {
+		justify-content: flex-end;
+	}
+	.osf-lender-profile .action button {
+		width: auto;
+		flex: 0 0 auto;
+	}
+	.osf-lender-profile .lender-name {
+		margin-bottom: 10px;
+	}
+	.osf-lender-profile .lender-bio p {
+		margin-bottom: 10px;
+	}
+	.osf-lender-profile .lender-bio p:last-child {
+		margin-bottom: 0;
+	}
+
+	.ofs-products-list .ofs-pi {
+		width: 33.33333%;
+		flex: 0 0 33.33333%;
+	}
+
+}
+@media (min-width: 992px) {
+	
+}
+@media (min-width: 1024px) {
+	
+}
+@media (min-width: 1200px) {
+	.ofs-products-list .ofs-pi {
+		width: 25%;
+		flex: 0 0 25%;
+	}
+}
