@@ -16,7 +16,7 @@ define('OFS_URL', untrailingslashit(plugins_url( '', OFS_PLUGIN_FILE)));
 define('OFS_PATH', dirname(OFS_PLUGIN_FILE));
 define('OFS_BASE', plugin_basename(OFS_PLUGIN_FILE));
 
-define('OFS_CONNECT_TIMEOUT', 24); // đơn vị là giờ
+define('OFS_CONNECT_TIMEOUT', 72); // đơn vị là giờ
 define('OFS_COIN_RATE', 1); // tỷ lệ chuyển đổi giữ tiền thật và tiền ảo
 define('OFS_CONNECT_COST', 20000);
 define('OFS_CURRENCY_UNIT', 'VNĐ');

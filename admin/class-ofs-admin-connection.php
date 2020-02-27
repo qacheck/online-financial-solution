@@ -189,21 +189,22 @@ class OFS_Admin_Connection {
 							?>
 							<tr id="conn-<?=$value['borrower_id']?>-<?=$value['lender_id']?>">
 								<td>
-									<!-- <p><?=esc_html($borrower->get_display_name())?></p> -->
+									<strong>
 									<?php
 									if ( $value['status']=='connected' || $this->is_admin ) {
 										echo esc_html($borrower->get_name());
 									} else {
 										echo esc_html($borrower->get_hidden_name());
 									}
-
-									?>
+									?></strong>
+									<div style="font-size: 12px;text-transform: capitalize;">(<?=esc_html(mb_strtolower($borrower->get_display_name()))?>)</div>
 								</td>
 								<?php
 								if($this->is_admin) {
-									$lender = ofs_get_lender($value['lender_id']);
+									//$lender = ofs_get_lender($value['lender_id']);
+									$user = get_userdata( $value['lender_id'] );
 									?>
-									<td><?=esc_html($lender->get_login())?></td>
+									<td><?=esc_html($user->user_login)?></td>
 									<?php
 								}
 								if(!wp_is_mobile()) {
