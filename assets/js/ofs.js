@@ -35,6 +35,7 @@ jQuery(function($){
     if(url_get('verify')) {
         $('.ofs-borrower-login').addClass('open');
     }
+    /*
     var borrowers_list = $('#ofs-borrowers-list');
     function ofs_get_borrowers() {
         if(borrowers_list.length>0) {
@@ -76,6 +77,7 @@ jQuery(function($){
     }
     
     ofs_get_borrowers();
+    */
 
     $('#ofs-condition-filter-form').on('submit', function(e){
         var frm = $(this);
@@ -83,12 +85,17 @@ jQuery(function($){
             url:ofs.ajax_url,
             type:'POST',
             data:frm.serialize(),
-            beforeSend:function(xhr) {
+            beforeSend:function(xhr, settings) {
                 processing();
             },
-            success:function(response) {
+            success:function(response, status, xhr) {
                 processed();
                 $('#ofs-condition-filter-results').html(response);
+            },
+            error: function(xhr,status,error) {
+                processed();
+                alert(error);
+                //alert("Có lỗi xảy ra\nVui lòng thử lại\nHoặc liên hệ với ban quản trị vì sự cố này.");
             }
         });
 

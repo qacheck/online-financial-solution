@@ -49,6 +49,10 @@ jQuery(function($){
 				success: function(response) {
 					processed();
 					md.find('.modal-body').html(response);
+				},
+				error: function(xhr,status,error) {
+					processed();
+					alert(error)
 				}
 			});
 			
@@ -85,6 +89,10 @@ jQuery(function($){
 					condition_fields_sortable(true);
 				}
 				$('#ofs-condition-field-config .close').trigger('click');
+			},
+			error: function(xhr,status,error) {
+				processed();
+				alert(error)
 			}
 		});
 		return false;
@@ -110,6 +118,10 @@ jQuery(function($){
 				success: function(response) {
 					processed();
 					md.find('.modal-body').html(response);
+				},
+				error: function(xhr,status,error) {
+					processed();
+					alert(error)
 				}
 			});
 			
@@ -137,6 +149,10 @@ jQuery(function($){
 					list.find('#'+field_id).remove();
 				}
 				condition_fields_sortable(true);
+			},
+			error: function(xhr,status,error) {
+				processed();
+				alert(error)
 			}
 		});
 	});
@@ -193,6 +209,10 @@ jQuery(function($){
 					success: function(response) {
 						processed();
 						md.find('.modal-body').html(response);
+					},
+					error: function(xhr,status,error) {
+						processed();
+						alert(error)
 					}
 				});
 			});
@@ -214,6 +234,10 @@ jQuery(function($){
 					processed();
 					//console.log(response);
 					$frm.closest('.ofs-modal').find('.close').trigger('click');
+				},
+				error: function(xhr,status,error) {
+					processed();
+					alert(error)
 				}
 			});
 
@@ -238,7 +262,7 @@ jQuery(function($){
             success: function(res){
             	$('#user-profile-picture-select').html(res);
                 //console.log(res);
-            },
+            }
         });
         
 	});
@@ -273,6 +297,10 @@ jQuery(function($){
 						alert(response['message']);
 					}
 					//$('body').find('#conn-'+borrower_id+'-'+lender_id).html(response);
+				},
+				error: function(xhr,status,error) {
+					processed();
+					alert(error)
 				}
 			});
 		}
