@@ -7,6 +7,8 @@ class OFS_Admin_Connection {
 
 	private $lender = null;
 
+	private $is_admin = false;
+
 	public static $admin_connection_page_slug = 'edit-connection';
 
 	private function __construct() {
@@ -21,6 +23,9 @@ class OFS_Admin_Connection {
 	public function init() {
 		$current_user = wp_get_current_user();
 		$this->lender = ofs_get_lender($current_user);
+		if(in_array('administrator', (array)$current_user->roles)) {
+			$this->is_admin = true;
+		}
 	}
 
 	public function ofs_view_borrower() {
@@ -36,7 +41,7 @@ class OFS_Admin_Connection {
 			'body' => ''
 		);
 
-		if($status=='connected') {
+		if($status=='connected' ||$this->is_admin) {
 			$borrower = ofs_get_borrower($borrower_id);
 			
 			$response['title'] = esc_html($borrower->get_name().' - '.$borrower->get_display_name());
@@ -157,11 +162,25 @@ class OFS_Admin_Connection {
 			<div class="postbox">
 				<div class="inside">
 				<?php
-				$connections = ofs_model()->get_connections_by_lender($this->lender->get_id());
+				$connections = array();
+
+				if($this->lender->get_id()) {
+					$connections = ofs_model()->get_connections_by_lender($this->lender->get_id());
+				} else {
+					$connections = ofs_model()->get_all_connections();
+				}
 				//print_r($connections);
 				if(!empty($connections)) {
-				echo '<table class="ofs-table">';
-				echo '<tr><th>Borrower</th><th>Register date</th><th>Product</th><th>Status</th><th>Action</th></tr>';
+				echo '<table class="ofs-table ofs-list-connection">';
+				echo '<tr><th>Borrower</th>';
+				if($this->is_admin) {
+					echo '<th>Lender</th>';
+				}
+				if(!wp_is_mobile()) {
+					echo '<th>Register date</th><th>Product</th><th>Status</th>';
+				}
+
+				echo '<th>Action</th></tr>';
 					foreach ($connections as $key => $value) {
 						$borrower = ofs_get_borrower($value['borrower_id']);
 						if($borrower->get_id()) {
@@ -172,7 +191,7 @@ class OFS_Admin_Connection {
 								<td>
 									<!-- <p><?=esc_html($borrower->get_display_name())?></p> -->
 									<?php
-									if ( $value['status']=='connected' ) {
+									if ( $value['status']=='connected' || $this->is_admin ) {
 										echo esc_html($borrower->get_name());
 									} else {
 										echo esc_html($borrower->get_hidden_name());
@@ -180,20 +199,36 @@ class OFS_Admin_Connection {
 
 									?>
 								</td>
-								<td><?=esc_html($conn_date)?></td>
-								<td><?=esc_html($condition->get_title())?></td>
-								<td><?=esc_html($value['status'])?></td>
+								<?php
+								if($this->is_admin) {
+									$lender = ofs_get_lender($value['lender_id']);
+									?>
+									<td><?=esc_html($lender->get_login())?></td>
+									<?php
+								}
+								if(!wp_is_mobile()) {
+								?>
+									<td><?=esc_html($conn_date)?></td>
+									<td><?=esc_html($condition->get_title())?></td>
+									<td><?=esc_html($value['status'])?></td>
+								<?php } ?>
 								<td><?php
-									if( $value['status']=='pending' ) {
+									if(!$this->is_admin) {
+										if( $value['status']=='pending' ) {
+											?>
+											<button class="button ofs-buy-borrower" data-borrower-id="<?=$value['borrower_id']?>" data-lender-id="<?=$value['lender_id']?>"><?php _e('Buy', 'ofs'); ?> (<?=OFS_CONNECT_COST?> <span><?=OFS_CURRENCY_UNIT?></span>)</button>
+											<?php
+										} else if ( $value['status']=='connected' ) {
+											?>
+											<button class="button ofs-view-borrower" data-borrower-id="<?=$value['borrower_id']?>" data-lender-id="<?=$value['lender_id']?>" data-condition-id="<?=$condition->get_id()?>"><?php _e('View info', 'ofs'); ?></button>
+											<?php
+										} else if ( $value['status']=='expired' ) {
+											echo 'Đã quá hạn phê duyệt';
+										}
+									} else {
 										?>
-										<button class="button ofs-buy-borrower" data-borrower-id="<?=$value['borrower_id']?>" data-lender-id="<?=$value['lender_id']?>">Buy (<?=OFS_CONNECT_COST?> <span><?=OFS_CURRENCY_UNIT?></span>)</button>
+										<button class="button ofs-view-borrower" data-borrower-id="<?=$value['borrower_id']?>" data-lender-id="<?=$value['lender_id']?>" data-condition-id="<?=$condition->get_id()?>"><?php _e('View info', 'ofs'); ?></button>
 										<?php
-									} else if ( $value['status']=='connected' ) {
-										?>
-										<button class="button ofs-view-borrower" data-borrower-id="<?=$value['borrower_id']?>" data-lender-id="<?=$value['lender_id']?>" data-condition-id="<?=$condition->get_id()?>">View info</button>
-										<?php
-									} else if ( $value['status']=='expired' ) {
-										
 									}
 								?></td>
 							</tr>

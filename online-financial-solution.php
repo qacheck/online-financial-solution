@@ -5,7 +5,7 @@ Plugin URI: https://sps.vn
 Description: Online Financial Solution
 Author: qqngoc
 Author URI: https://sps.vn
-Version: 3.0.1
+Version: 3.0.2
 Text Domain: ofs
 License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 */

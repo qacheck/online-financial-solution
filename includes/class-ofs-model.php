@@ -19,6 +19,17 @@ class OFS_Model {
 		$this->tables = OFS_Install::get_tables();
 	}
 
+	public function get_all_connections() {
+		global $wpdb;
+
+		$page = isset($_GET['page']) ? absint($_GET['page']) : 1;
+		if($page==0) $page=1;
+
+		$sql = "SELECT * FROM {$this->tables['connection']} WHERE 1=1 ORDER BY conn_date DESC, borrower_id DESC";
+		$data = $wpdb->get_results( $wpdb->prepare( $sql, array($lender_id) ), ARRAY_A );
+		return $data;
+	}
+
 	public function get_connections_by_lender($lender_id) {
 		global $wpdb;
 
