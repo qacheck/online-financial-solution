@@ -47,12 +47,28 @@ class OFS_Admin_Users {
 			}
 			$output .= '</a>';
 		}
+
+		if($column=='thumbnail') {
+			$uploader = new OFS_Uploader;
+			$profile_photo_file = get_user_meta($user_id, 'profile_photo', true);
+			if($profile_photo_file) {
+				$output .= ($profile_photo_file!='')?'<div class="thumbnail-wrap"><img src="'.esc_url($uploader->get_upload_user_base_url($user_id).'/'.$profile_photo_file).'" alt="Profile Picture"></div>':'';
+			}
+			
+		}
 		return $output;
 	}
 
 	public function users_columns_header($columns) {
+		$cb = $columns['cb'];
+		unset($columns['cb']);
+		$new_columns = array(
+			'cb' => $cb,
+			'thumbnail' => __('Avatar', 'ofs')
+		);
+
 		$columns['status'] = __('Status', 'ofs');
-		return $columns;
+		return array_merge($new_columns, $columns);
 	}
 
 }

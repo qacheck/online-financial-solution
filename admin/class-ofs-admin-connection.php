@@ -12,6 +12,7 @@ class OFS_Admin_Connection {
 	public static $admin_connection_page_slug = 'edit-connection';
 
 	private function __construct() {
+
 		add_action('init', array($this, 'init'), 0);
 
 		add_action('admin_menu', array($this, 'admin_settings_menu'), 50);
@@ -34,14 +35,15 @@ class OFS_Admin_Connection {
 
 		$borrower_id = isset($_POST['borrower_id'])?absint($_POST['borrower_id']):0;
 		$lender_id = isset($_POST['lender_id'])?absint($_POST['lender_id']):0;
-		$status = ofs_model()->connect_status($borrower_id, $lender_id);
-
+		//$status = ofs_model()->connect_status($borrower_id, $lender_id);
+		$connected = ofs_model()->get_connection($borrower_id, $lender_id);
+		//print_r($connected);
 		$response = array(
 			'title' => '',
 			'body' => ''
 		);
 
-		if($status=='connected' ||$this->is_admin) {
+		if($connected['status']=='connected' || $this->is_admin) {
 			$borrower = ofs_get_borrower($borrower_id);
 			
 			$response['title'] = esc_html($borrower->get_name().' - '.$borrower->get_display_name());
@@ -52,24 +54,24 @@ class OFS_Admin_Connection {
 			<div class="borrower-data-filter">
 				<select id="select-condition">
 				<?php
-				$i=0;
+				//$i=0;
 				foreach ($borrower->get_data() as $condition_id => $data) {
 					$condition = ofs_get_condition($condition_id);
 					?>
-					<option value="<?=$condition_id?>" <?php selected( $i, 0, true ); ?>><?=esc_html($condition->get_title())?></option>
+					<option value="<?=$condition_id?>" <?php selected( $condition_id, $connected['condition_id'], true ); ?>><?=esc_html($condition->get_title())?></option>
 					<?php
-					$i++;
+					//$i++;
 				}
 				?>
 				</select>
 			</div>
 			<div class="borrower-data">
 			<?php
+			//$i=0;
 			foreach ($borrower->get_data() as $condition_id => $borrower_data) {
 				$condition = ofs_get_condition($condition_id);
-				$i=0;
 				?>
-				<div id="condition-<?=$condition_id?>" class="condition-borrower-data<?php echo ($i==0)?' active':''; ?>">
+				<div id="condition-<?=$condition_id?>" class="condition-borrower-data<?php echo ($condition_id==$connected['condition_id'])?' active':''; ?>">
 					<table>
 					<?php
 					foreach ($condition->get_fields() as $field_id => $field_config) {
@@ -80,7 +82,7 @@ class OFS_Admin_Connection {
 					</table>
 				</div>
 				<?php
-				$i++;
+				//$i++;
 			}
 			?>
 			</div>
@@ -156,6 +158,14 @@ class OFS_Admin_Connection {
 	public function admin_page() {
 		if(!current_user_can('edit_connection')) return;
 
+		global $wpdb;
+
+		$tables = OFS_Install::get_tables();
+		$limit = 15;
+		$qs = 'qs';
+		$current_page = isset($_GET[$qs]) ? absint($_GET[$qs]) : 1;
+		$total_records = 0;
+
 		?>
 		<div class="wrap">
 			<h2><?php _e('Connections'); ?></h2>
@@ -163,86 +173,137 @@ class OFS_Admin_Connection {
 				<div class="inside">
 				<?php
 				$connections = array();
+				if($this->lender->get_id()) {
+					$total_records = $wpdb->get_var( "SELECT COUNT(*) FROM {$tables['connection']} WHERE lender_id={$this->lender->get_id()} ORDER BY conn_date DESC " );
+				} else if($this->is_admin) {
+					$total_records = $wpdb->get_var("SELECT COUNT(*) FROM {$tables['connection']} WHERE 1=1 ORDER BY conn_date DESC, borrower_id DESC");
+				}
+
+				$total_page = ceil($total_records / $limit);
+
+				//echo $total_records;
+
+				// Giới hạn current_page trong khoảng 1 đến total_page
+				if ($current_page > $total_page){
+				    $current_page = $total_page;
+				} else if ($current_page < 1){
+				    $current_page = 1;
+				}
+				 
+				// Tìm Start
+				$start = ($current_page - 1) * $limit;
 
 				if($this->lender->get_id()) {
-					$connections = ofs_model()->get_connections_by_lender($this->lender->get_id());
+					//$connections = ofs_model()->get_connections_by_lender($this->lender->get_id());
+					$sql = "SELECT * FROM {$tables['connection']} WHERE lender_id = {$this->lender->get_id()} ORDER BY conn_date DESC LIMIT %d, %d";
 				} else {
-					$connections = ofs_model()->get_all_connections();
-				}
-				//print_r($connections);
-				if(!empty($connections)) {
-				echo '<table class="ofs-table ofs-list-connection">';
-				echo '<tr><th>Borrower</th>';
-				if($this->is_admin) {
-					echo '<th>Lender</th>';
-				}
-				if(!wp_is_mobile()) {
-					echo '<th>Register date</th><th>Product</th><th>Status</th>';
+					//$connections = ofs_model()->get_all_connections();
+					
+					$sql = "SELECT * FROM {$tables['connection']} WHERE 1=1 ORDER BY conn_date DESC, borrower_id DESC LIMIT %d, %d";
 				}
 
-				echo '<th>Action</th></tr>';
-					foreach ($connections as $key => $value) {
-						$borrower = ofs_get_borrower($value['borrower_id']);
-						if($borrower->get_id()) {
-							$conn_date = mysql2date('H:i:s d/m/Y', $value['conn_date']);
-							$condition = ofs_get_condition(absint($value['condition_id']));
-							?>
-							<tr id="conn-<?=$value['borrower_id']?>-<?=$value['lender_id']?>">
-								<td>
-									<strong>
-									<?php
-									if ( $value['status']=='connected' || $this->is_admin ) {
-										echo esc_html($borrower->get_name());
-									} else {
-										echo esc_html($borrower->get_hidden_name());
-									}
-									?></strong>
-									<div style="font-size: 12px;text-transform: capitalize;">(<?=esc_html(mb_strtolower($borrower->get_display_name()))?>)</div>
-								</td>
-								<?php
-								if($this->is_admin) {
-									//$lender = ofs_get_lender($value['lender_id']);
-									$user = get_userdata( $value['lender_id'] );
-									?>
-									<td><?=esc_html($user->user_login)?></td>
-									<?php
-								}
-								if(!wp_is_mobile()) {
+				$connections = $wpdb->get_results( $wpdb->prepare( $sql, array($start, $limit) ), ARRAY_A );
+
+				$pagination_args = array(
+					'base' => $this->get_admin_url().'%_%',
+					'format' => '&'.$qs.'=%#%',
+					'total' => $total_page,
+					'current' => $current_page,
+					'prev_text' => '&laquo;',
+					'next_text' => '&raquo;',
+				);
+
+				//print_r($connections);
+				if(!empty($connections)) {
+					echo '<table class="ofs-table ofs-list-connection">';
+					echo '<tr><th>Borrower</th>';
+					if($this->is_admin) {
+						echo '<th>Lender</th>';
+					}
+					if(!wp_is_mobile()) {
+						echo '<th>Register date</th><th>Product</th><th>Status</th>';
+					}
+
+					echo '<th>Action</th></tr>';
+						foreach ($connections as $key => $value) {
+							$borrower = ofs_get_borrower($value['borrower_id']);
+							if($borrower->get_id()) {
+								$conn_date = mysql2date('H:i:s d/m/Y', $value['conn_date']);
+								$condition = ofs_get_condition(absint($value['condition_id']));
 								?>
-									<td><?=esc_html($conn_date)?></td>
-									<td><?=esc_html($condition->get_title())?></td>
-									<td><?=esc_html($value['status'])?></td>
-								<?php } ?>
-								<td><?php
-									if(!$this->is_admin) {
-										if( $value['status']=='pending' ) {
-											?>
-											<button class="button ofs-buy-borrower" data-borrower-id="<?=$value['borrower_id']?>" data-lender-id="<?=$value['lender_id']?>"><?php _e('Buy', 'ofs'); ?> (<?=OFS_CONNECT_COST?> <span><?=OFS_CURRENCY_UNIT?></span>)</button>
-											<?php
-										} else if ( $value['status']=='connected' ) {
+								<tr id="conn-<?=$value['borrower_id']?>-<?=$value['lender_id']?>">
+									<td>
+										<strong>
+										<?php
+										if ( $value['status']=='connected' || $this->is_admin ) {
+											echo esc_html($borrower->get_name());
+										} else {
+											echo esc_html($borrower->get_hidden_name());
+										}
+										?></strong>
+										<div style="font-size: 12px;text-transform: capitalize;">(<?=esc_html(mb_strtolower($borrower->get_display_name()))?>)</div>
+									</td>
+									<?php
+									if($this->is_admin) {
+										//$lender = ofs_get_lender($value['lender_id']);
+										$user = get_userdata( $value['lender_id'] );
+										?>
+										<td><?=esc_html($user->user_login)?></td>
+										<?php
+									}
+									if(!wp_is_mobile()) {
+									?>
+										<td><?=esc_html($conn_date)?></td>
+										<td><?=esc_html($condition->get_title())?></td>
+										<td><?=esc_html($value['status'])?></td>
+									<?php } ?>
+									<td><?php
+										if(!$this->is_admin) {
+											if( $value['status']=='pending' ) {
+												?>
+												<button class="button ofs-buy-borrower" data-borrower-id="<?=$value['borrower_id']?>" data-lender-id="<?=$value['lender_id']?>"><?php _e('Buy', 'ofs'); ?> (<?=OFS_CONNECT_COST?> <span><?=OFS_CURRENCY_UNIT?></span>)</button>
+												<?php
+											} else if ( $value['status']=='connected' ) {
+												?>
+												<button class="button ofs-view-borrower" data-borrower-id="<?=$value['borrower_id']?>" data-lender-id="<?=$value['lender_id']?>" data-condition-id="<?=$condition->get_id()?>"><?php _e('View info', 'ofs'); ?></button>
+												<?php
+											} else if ( $value['status']=='expired' ) {
+												echo 'Đã quá hạn phê duyệt';
+											}
+										} else {
 											?>
 											<button class="button ofs-view-borrower" data-borrower-id="<?=$value['borrower_id']?>" data-lender-id="<?=$value['lender_id']?>" data-condition-id="<?=$condition->get_id()?>"><?php _e('View info', 'ofs'); ?></button>
 											<?php
-										} else if ( $value['status']=='expired' ) {
-											echo 'Đã quá hạn phê duyệt';
 										}
-									} else {
-										?>
-										<button class="button ofs-view-borrower" data-borrower-id="<?=$value['borrower_id']?>" data-lender-id="<?=$value['lender_id']?>" data-condition-id="<?=$condition->get_id()?>"><?php _e('View info', 'ofs'); ?></button>
-										<?php
-									}
-								?></td>
-							</tr>
-							<?php
+									?></td>
+								</tr>
+								<?php
+							}
 						}
+					echo '</table>';
+
+					$paginate_links = paginate_links($pagination_args);
+
+					if($paginate_links!='') {
+						$paginate_links = str_replace('page-numbers', 'button button-secondary',$paginate_links);
+						$paginate_links = str_replace('button-secondary current', 'button-primary',$paginate_links);
+						?>
+						<div class="ofs-pagination">
+							<?php echo $paginate_links; ?>
+						</div>
+						<?php	
 					}
-				echo '</table>';
+
 				}
 				?>
 				</div>
 			</div>
 		</div>
 		<?php
+	}
+
+	public function get_admin_url() {
+		return admin_url('admin.php?page='.self::$admin_connection_page_slug);
 	}
 
 	public function admin_settings_menu() {

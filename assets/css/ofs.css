@@ -125,6 +125,7 @@
 	height: 40px;
 	line-height: 38px;
 	border-radius: 40px;
+	text-align: center;
 }
 .ofs-borrower-login input[type=text]:focus {
 	outline: none;

@@ -26,7 +26,7 @@ class OFS_Model {
 		if($page==0) $page=1;
 
 		$sql = "SELECT * FROM {$this->tables['connection']} WHERE 1=1 ORDER BY conn_date DESC, borrower_id DESC";
-		$data = $wpdb->get_results( $wpdb->prepare( $sql, array($lender_id) ), ARRAY_A );
+		$data = $wpdb->get_results( $sql, ARRAY_A );
 		return $data;
 	}
 

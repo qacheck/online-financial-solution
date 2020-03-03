@@ -327,6 +327,39 @@
 .ofs-field-type-checkbox .ofs-field-borrower-data .selected:last-child {
 	margin-right: 0;
 }
+.wp-list-table .column-thumbnail .thumbnail-wrap {
+	position: relative;
+	height: 0;
+	padding-bottom: 100%;
+	overflow: hidden;
+}
+.wp-list-table .column-thumbnail .thumbnail-wrap img {
+	width: 100%;
+	height: auto;
+	position: absolute;
+	top: 50%;
+	left: 0;
+	-webkit-transform: translateY(-50%);
+	   -moz-transform: translateY(-50%);
+	    -ms-transform: translateY(-50%);
+	     -o-transform: translateY(-50%);
+	        transform: translateY(-50%);
+}
+.ofs-pagination {
+	margin-top: 15px;
+	text-align: center;
+}
+@media screen and (max-width: 782px) {
+	.wp-list-table th.column-thumbnail {
+		display: none;
+	}
+	.wp-list-table .column-thumbnail .thumbnail-wrap {
+		position: relative;
+		height: 0;
+		padding-bottom: 100%;
+		overflow: hidden;
+	}
+}
 @media (min-width: 576px) {
 	.ofs-modal .modal-dialog {
 		max-width: 500px;
