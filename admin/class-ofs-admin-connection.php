@@ -35,15 +35,15 @@ class OFS_Admin_Connection {
 
 		$borrower_id = isset($_POST['borrower_id'])?absint($_POST['borrower_id']):0;
 		$lender_id = isset($_POST['lender_id'])?absint($_POST['lender_id']):0;
-		//$status = ofs_model()->connect_status($borrower_id, $lender_id);
-		$connected = ofs_model()->get_connection($borrower_id, $lender_id);
-		//print_r($connected);
+		$status = ofs_model()->connect_status($borrower_id, $lender_id);
+		$data_conn = ofs_model()->get_connection($borrower_id, $lender_id);
+		//print_r($data_conn);
 		$response = array(
 			'title' => '',
 			'body' => ''
 		);
 
-		if($connected['status']=='connected' || $this->is_admin) {
+		if($status=='connected' || $this->is_admin) {
 			$borrower = ofs_get_borrower($borrower_id);
 			
 			$response['title'] = esc_html($borrower->get_name().' - '.$borrower->get_display_name());
@@ -54,24 +54,21 @@ class OFS_Admin_Connection {
 			<div class="borrower-data-filter">
 				<select id="select-condition">
 				<?php
-				//$i=0;
 				foreach ($borrower->get_data() as $condition_id => $data) {
 					$condition = ofs_get_condition($condition_id);
 					?>
-					<option value="<?=$condition_id?>" <?php selected( $condition_id, $connected['condition_id'], true ); ?>><?=esc_html($condition->get_title())?></option>
+					<option value="<?=$condition_id?>" <?php selected( $condition_id, $data_conn['condition_id'], true ); ?>><?=esc_html($condition->get_title())?></option>
 					<?php
-					//$i++;
 				}
 				?>
 				</select>
 			</div>
 			<div class="borrower-data">
 			<?php
-			//$i=0;
 			foreach ($borrower->get_data() as $condition_id => $borrower_data) {
 				$condition = ofs_get_condition($condition_id);
 				?>
-				<div id="condition-<?=$condition_id?>" class="condition-borrower-data<?php echo ($condition_id==$connected['condition_id'])?' active':''; ?>">
+				<div id="condition-<?=$condition_id?>" class="condition-borrower-data<?php echo ($condition_id==$data_conn['condition_id'])?' active':''; ?>">
 					<table>
 					<?php
 					foreach ($condition->get_fields() as $field_id => $field_config) {
@@ -82,7 +79,6 @@ class OFS_Admin_Connection {
 					</table>
 				</div>
 				<?php
-				//$i++;
 			}
 			?>
 			</div>

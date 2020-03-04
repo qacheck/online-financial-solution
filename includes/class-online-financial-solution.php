@@ -12,6 +12,15 @@ final class Online_Financial_Solution {
 	}
 
 	private function includes() {
+		if ( ! class_exists( 'WP_Async_Request', false ) ) {
+			require_once OFS_PATH.'/includes/wp-async-request.php';
+		}
+
+		if ( ! class_exists( 'WP_Background_Process', false ) ) {
+			require_once OFS_PATH.'/includes/wp-background-process.php';
+		}
+
+		require_once OFS_PATH.'/includes/class-ofs-background-update-connection-status.php';
 		require_once OFS_PATH.'/includes/captcha/captcha.php';
 		require_once OFS_PATH.'/includes/ofs-functions.php';
 		require_once OFS_PATH.'/includes/class-ofs-post-types.php';
@@ -26,6 +35,7 @@ final class Online_Financial_Solution {
 		require_once OFS_PATH.'/includes/class-ofs-shortcodes.php';
 		require_once OFS_PATH.'/includes/class-ofs-mailer.php';
 		require_once OFS_PATH.'/includes/class-ofs-user-login.php';
+		require_once OFS_PATH.'/includes/class-ofs-schedules.php';
 
 		if(is_admin()) {
 			require_once OFS_PATH.'/admin/class-ofs-admin.php';
@@ -38,6 +48,7 @@ final class Online_Financial_Solution {
 		add_action('plugins_loaded', array($this, 'load_textdomain'));
 
 		//OFS_Install::update_roles();
+		//OFS_Install::create_schedules();
 
 		OFS_Field_Factory::load_fields();
 
@@ -48,6 +59,7 @@ final class Online_Financial_Solution {
 		add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'), 999 );
 
 		add_filter('wp_new_user_notification_email', array($this, 'custom_new_user_notification_email'), 10, 3);
+
 	}
 
 	public function custom_new_user_notification_email($wp_new_user_notification_email, $user, $blogname) {

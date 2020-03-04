@@ -19,11 +19,16 @@ class OFS_Model {
 		$this->tables = OFS_Install::get_tables();
 	}
 
-	public function get_all_connections() {
+	public function get_pending_connections() {
 		global $wpdb;
 
-		$page = isset($_GET['page']) ? absint($_GET['page']) : 1;
-		if($page==0) $page=1;
+		$sql = "SELECT * FROM {$this->tables['connection']} WHERE status='pending' ORDER BY conn_date ASC, borrower_id ASC";
+		$data = $wpdb->get_results( $sql, ARRAY_A );
+		return $data;
+	}
+
+	public function get_all_connections() {
+		global $wpdb;
 
 		$sql = "SELECT * FROM {$this->tables['connection']} WHERE 1=1 ORDER BY conn_date DESC, borrower_id DESC";
 		$data = $wpdb->get_results( $sql, ARRAY_A );
@@ -32,9 +37,6 @@ class OFS_Model {
 
 	public function get_connections_by_lender($lender_id) {
 		global $wpdb;
-
-		$page = isset($_GET['page']) ? absint($_GET['page']) : 1;
-		if($page==0) $page=1;
 
 		$sql = "SELECT * FROM {$this->tables['connection']} WHERE lender_id = %d ORDER BY conn_date DESC";
 		$data = $wpdb->get_results( $wpdb->prepare( $sql, array($lender_id) ), ARRAY_A );
@@ -147,7 +149,7 @@ class OFS_Model {
 		$data = $wpdb->get_row( $wpdb->prepare( $sql, array($borrower_id, $lender_id) ), ARRAY_A );
 
 		$status = '';
-
+		//ofs_log($data);
 		if($data) {
 			$current_time = strtotime(current_time( 'mysql' ));
 			$conn_date = strtotime($data['conn_date']);

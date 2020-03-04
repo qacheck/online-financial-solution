@@ -10,13 +10,26 @@ class OFS_Install {
 
 		self::create_tables();
 		self::create_roles();
+		//self::create_schedules();
 
 		update_option( 'ofs_queue_flush_rewrite_rules', 'yes' );
+	}
+
+	public static function create_schedules() {
+		if (! wp_next_scheduled( 'update_connection_status' )) {
+			wp_schedule_event( time(), 'interval_update_connection_status', 'update_connection_status' );
+		}
+	}
+
+	public static function remove_schedules() {
+		$timestamp = wp_next_scheduled( 'update_connection_status' );
+		wp_unschedule_event( $timestamp, 'update_connection_status' );
 	}
 
 	public static function uninstall() {
 		flush_rewrite_rules();
 		self::remove_roles();
+		self::remove_schedules();
 	}
 
 	public static function remove_roles() {

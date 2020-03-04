@@ -29,7 +29,12 @@ class OFS_Admin_Dashboard {
 	}
 
 	public function statistics_lender_dashboard_widget_render() {
-		echo 'Thống kê cho lender';
+		$number_conditions = wp_count_posts('condition', 'readable');
+		?>
+		<div class="ofs-statistic-condition">
+			Tổng khẩu vị:	
+		</div>
+		<?php
 	}
 
 	public function __clone() {}

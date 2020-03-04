@@ -5,7 +5,7 @@ Plugin URI: https://sps.vn
 Description: Online Financial Solution
 Author: qqngoc
 Author URI: https://sps.vn
-Version: 3.0.2
+Version: 3.0.3
 Text Domain: ofs
 License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 */
@@ -23,6 +23,7 @@ define('OFS_CURRENCY_UNIT', 'VNĐ');
 define('OFS_CURRENCY_UNIT_SHORT', 'đ');
 define('OFS_DONATE', '100000');
 define('OFS_ADDITION_ADMIN_EMAIL', 'qqngoc2988@gmail.com');
+define('OFS_IUCS', MINUTE_IN_SECONDS);
 
 require_once OFS_PATH.'/includes/class-online-financial-solution.php';
 
