@@ -12,13 +12,8 @@ final class Online_Financial_Solution {
 	}
 
 	private function includes() {
-		if ( ! class_exists( 'WP_Async_Request', false ) ) {
-			require_once OFS_PATH.'/includes/wp-async-request.php';
-		}
-
-		if ( ! class_exists( 'WP_Background_Process', false ) ) {
-			require_once OFS_PATH.'/includes/wp-background-process.php';
-		}
+		require_once OFS_PATH.'/includes/class-wp-async-request.php';
+		require_once OFS_PATH.'/includes/class-wp-background-process.php';
 
 		require_once OFS_PATH.'/includes/class-ofs-background-update-connection-status.php';
 		require_once OFS_PATH.'/includes/captcha/captcha.php';

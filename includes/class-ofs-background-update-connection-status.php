@@ -27,7 +27,7 @@ class OFS_Background_Update_Connection_Status extends WP_Background_Process {
 	 */
 	protected function task( $data ) {
 		//sleep(10);
-		ofs_log($data);
+		//ofs_log($data);
 		$current_time = strtotime(current_time( 'mysql' ));
 		$conn_date = strtotime($data['conn_date']);
 		$time = $current_time-$conn_date;

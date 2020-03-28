@@ -19,6 +19,20 @@ class OFS_Model {
 		$this->tables = OFS_Install::get_tables();
 	}
 
+	public function total_lender_conditions($lender_id) {
+		global $wpdb;
+		$lender_id = absint($lender_id);
+		$sql = "SELECT condition_id, COUNT(condition_id) AS num_fields FROM {$wpdb->posts} INNER JOIN {$this->tables['required']} ON (ID=condition_id) WHERE post_type = 'condition' AND post_status='publish' AND lender_id={$lender_id} GROUP BY condition_id";
+		//ofs_log($sql);
+		return $wpdb->get_col($sql);
+	}
+
+	public function total_conditions() {
+		global $wpdb;
+		$sql = "SELECT COUNT(ID) FROM {$wpdb->posts} WHERE post_type = 'condition' AND post_status='publish'";
+		return absint($wpdb->get_var($sql));
+	}
+
 	public function get_pending_connections() {
 		global $wpdb;
 

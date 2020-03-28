@@ -340,7 +340,7 @@ class OFS_Shortcodes {
 				<?php
 			} else {
 				?>
-				<div class="ofs-button ofs-button-borrower-login">Tôi cần vay</div>
+				<div class="ofs-button ofs-button-borrower-login"><?php _e("I'm a borrower", 'ofs'); ?></div>
 				<?php
 			}
 			
@@ -358,7 +358,7 @@ class OFS_Shortcodes {
 			} else {
 				?>
 				<div class="ofs-button ofs-button-lender">
-					<a href="<?php echo wp_login_url(admin_url()); ?>">Tôi muốn cho vay</a>
+					<a href="<?php echo wp_login_url(admin_url()); ?>"><?php _e("I'm a lender", 'ofs'); ?></a>
 				</div>
 				<?php
 			}
